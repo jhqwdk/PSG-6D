@@ -21,6 +21,7 @@ git clone https://github.com/CVMI-Lab/IST-Net.git
 # Compile pointnet2
 cd model/pointnet2
 python setup.py install
+```
 
 *Prepare the datasets*
 Following DPDN, please Download the folloing data NOCS (camera_train, camera_test, camera_composed_depths, real_train, real_test, ground truths, and mesh models) and segmentation results (Link). For camera_train.pkl, camera_val.pkl, real_test.pkl, real_rain.pkl, please refer to this Link. Then unzip them in data folder and arange them as follows:
@@ -50,13 +51,16 @@ Following DPDN, please Download the folloing data NOCS (camera_train, camera_tes
     ├── train_trainedwoMask
     ├── test_trainedwoMask
     └── test_trainedwithMask
+```
 
 *Date processing*
 ``` python data_processing.py
+```
 
 ## Training from scartch
 ``` # gpus refers to the ids of gpu. For single gpu, please set it as 0
 python train.py --gpus 0,1 --config config/psg6d_default.yaml
+```
 
 ## Training in seperate manner
 If you want to achieve a higher result, we recommand you to train PSG6D in two phase. Phase 1, train the world-space enhancer(WE). Phase 2, freeze the world-space enhancer and train other component from scartch.
@@ -64,9 +68,11 @@ If you want to achieve a higher result, we recommand you to train PSG6D in two p
 python train.py --gpus 0,1 --config config/posenet_gt_default.yaml
 # Phase 2, modify the [world_enhancer_path] in yaml file with the model weights saved in phase 1
 python train.py --gpus 0,1 --config config/ist_net_freeze_world_enhancer.yaml
+```
 
 ## Evaluation
 ``` python test.py --config config/psg6d_default.yaml
+```
 
 # Acknowledgement
 * Our code is developed upon DPDN,IST-Net.
