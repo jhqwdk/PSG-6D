@@ -12,7 +12,8 @@ pip install gorilla-core==0.2.5.3
 pip install gpustat==1.0.0
 pip install opencv-python-headless
 pip install matplotlib
-pip install scipy ```
+pip install scipy
+```
 
 *Compiling*
 ``` # Clone this repo
