@@ -24,7 +24,7 @@ python setup.py install
 ```
 
 *Prepare the datasets*
-Following DPDN, please Download the folloing data NOCS (camera_train, camera_test, camera_composed_depths, real_train, real_test, ground truths, and mesh models) and segmentation results (Link). For camera_train.pkl, camera_val.pkl, real_test.pkl, real_rain.pkl, please refer to this Link. Then unzip them in data folder and arange them as follows:
+Following DPDN, please Download the folloing data [NOCS](https://github.com/hughw19/NOCS_CVPR2019) (camera_train, camera_test, camera_composed_depths, real_train, real_test, ground truths, and mesh models) and segmentation results (Link). For camera_train.pkl, camera_val.pkl, real_test.pkl, real_rain.pkl, please refer to this Link. Then unzip them in data folder and arange them as follows:
 ``` data
 ├── CAMERA
 │   ├── train
