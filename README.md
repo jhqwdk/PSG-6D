@@ -54,7 +54,8 @@ Following DPDN, please Download the folloing data NOCS (camera_train, camera_tes
 ```
 
 *Date processing*
-``` python data_processing.py
+```
+python data_processing.py
 ```
 
 ## Training from scartch
