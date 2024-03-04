@@ -65,8 +65,7 @@ python train.py --gpus 0,1 --config config/psg6d_default.yaml
 
 ## Training in seperate manner
 If you want to achieve a higher result, we recommand you to train PSG6D in two phase. Phase 1, train the world-space part. Phase 2, freeze the world-space and train other component from scartch.
-```
-# Phase 1
+``` # Phase 1
 python train.py --gpus 0,1 --config config/posenet_gt_vnn_glo.yaml
 # Phase 2, modify the [world_enhancer_path] in yaml file with the model weights saved in phase 1
 python train.py --gpus 0,1 --config config/psg6d_freeze_world_enhancer.yaml
