@@ -84,19 +84,27 @@ class HeavyEstimator(nn.Module):
         super(HeavyEstimator, self).__init__()
 
         self.pts_mlp1 = nn.Sequential(
+            nn.Conv1d(3, 32, 1),
+            nn.ReLU(),
+            nn.Conv1d(32, 64, 1),
+            nn.ReLU()
+        )
+
+        self.pts_so_mlp1 = nn.Sequential(
             nn.Conv1d(192, 384, 1),
             nn.ReLU(),
             nn.Conv1d(384, 64, 1),
             nn.ReLU(),
         )
+
         self.pts_mlp2 = nn.Sequential(
-            nn.Conv1d(192, 384, 1),
+            nn.Conv1d(3, 32, 1),
             nn.ReLU(),
-            nn.Conv1d(384, 64, 1),
-            nn.ReLU(),
+            nn.Conv1d(32, 64, 1),
+            nn.ReLU()
         )
         self.pose_mlp1 = nn.Sequential(
-            nn.Conv1d(64+64+384, 256, 1),
+            nn.Conv1d(64+64+384+64, 256, 1),
             nn.ReLU(),
             nn.Conv1d(256, 256, 1),
             nn.ReLU(),
@@ -133,37 +141,25 @@ class HeavyEstimator(nn.Module):
         self.vnn = MY_VNN_SimplePointnet_onlyp(c_dim=64, hidden_dim=128,meta_output='equivariant_latent')
 
     def forward(self, pts, pts_w, rgb_local, pts_local, pts_w_local):
+        pts_so=pts
+        pts = self.pts_mlp1(pts.transpose(1,2))
+        pts_w = self.pts_mlp2(pts_w.transpose(1,2))
 
-        B=pts.size(0)
+        B=pts_so.size(0)
         x_list = np.array([], dtype=np.float32)
-        device = pts.device
+        device = pts_so.device
         x_list = torch.tensor(x_list, device=device)
         for i in range(B):  # ([6, N])
-            x_i = pts[i].unsqueeze(1)  # [6, 1, N]
-            #print(x_i.shape) #(1024,1,3)
+            x_i = pts_so[i].unsqueeze(1)  # [6, 1, N]
             x_i = x_i.transpose(0, 1)  #[1024,1,3]->[1,1024,3]
             x_i = self.vnn(x_i).unsqueeze(0)  #[1,192,1024]
             x_list = torch.cat((x_list, x_i), dim=0)
         
-        pts = x_list  # [12, 192, 1024])
-        pts = self.pts_mlp1(pts)
+        pts_so = x_list  # [12, 192, 1024])
+        pts_so = self.pts_so_mlp1(pts_so)
 
-        B=pts_w.size(0)
-        x_list = np.array([], dtype=np.float32)
-        device = pts_w.device
-        x_list = torch.tensor(x_list, device=device)
-        for i in range(B):  # ([6, N])
-            x_i = pts_w[i].unsqueeze(1)  # [6, 1, N]
-            #print(x_i.shape) #(1024,1,3)
-            x_i = x_i.transpose(0, 1)  #[1024,1,3]->[1,1024,3]
-            x_i = self.vnn(x_i).unsqueeze(0)  #[1,192,1024]
-            x_list = torch.cat((x_list, x_i), dim=0)
-        
-        pts_w = x_list  # [12, 192, 1024])
-        pts_w = self.pts_mlp2(pts_w)
-        
 
-        pose_feat = torch.cat([rgb_local, pts, pts_local, pts_w, pts_w_local], dim=1)
+        pose_feat = torch.cat([rgb_local, pts, pts_local, pts_w, pts_w_local,pts_so], dim=1)
 
         pose_feat = self.pose_mlp1(pose_feat)
         pose_global = torch.mean(pose_feat, 2, keepdim=True)
