@@ -73,7 +73,7 @@ python train.py --gpus 0,1 --config config/psg6d_freeze_world_enhancer.yaml
 ```
 
 ## Evaluation
-The two phase weight can be found here:[weight](https://drive.google.com/drive/my-drive)
+The two phase weight can be found here: [weight](https://drive.google.com/drive/my-drive)
 ```
 python test.py --config config/psg6d_freeze_world_enhancer.yaml
 ```
