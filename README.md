@@ -75,6 +75,7 @@ python train.py --gpus 0,1 --config config/psg6d_freeze_world_enhancer.yaml
 ## Evaluation
 ```
 python test.py --config config/psg6d_default.yaml
+python test.py --config config/psg6d_freeze_world_enhancer.yaml
 ```
 
 
