@@ -77,6 +77,10 @@ python train.py --gpus 0,1 --config config/psg6d_freeze_world_enhancer.yaml
 python test.py --config config/psg6d_default.yaml
 ```
 
+## Result
+Method | Prior | $3D_{25}$ | $3D_{50}$ | $3D_{75}$ | $5^{\circ} 2cm$ | $5^{\circ} 5cm$ | $10^{\circ} 2cm$ | $10^{\circ} 5cm$ | $10^{\circ} 10cm$
+
+
 # Acknowledgement
 * Our code is developed upon [DPDN](https://github.com/JiehongLin/Self-DPDN),[IST-Net](https://github.com/CVMI-Lab/IST-Net?tab=readme-ov-file#prepare-the-environment).
 * The dataset is provided by [NOCS](https://github.com/hughw19/NOCS_CVPR2019).
